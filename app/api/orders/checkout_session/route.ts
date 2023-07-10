@@ -54,8 +54,9 @@ export async function POST(req: NextRequest) {
    //the session creation
    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      success_url: 'http://localhost:3000/order-complete?success=true',
-      cancel_url: 'http://localhost:3000',
+      success_url:
+         'https://miles-market.vercel.app/order-complete?success=true',
+      cancel_url: 'https://miles-market.vercel.app',
       customer_email: currentUser?.email!,
       client_reference_id: currentUser?.id,
       mode: 'payment',
