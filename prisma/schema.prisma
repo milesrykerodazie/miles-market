@@ -1,0 +1,171 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  username      String?    @unique
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  profilePic    UserImage?
+  role          UserType   @default(USER)
+  password      String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  accounts  Account[]
+  products  Product[]
+  comments  Comment[]
+  addresses Address[]
+  orders    Order[]
+}
+
+model UserImage {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  public_id String @unique
+  url       String @default("")
+  userId    String @unique @db.ObjectId // relation scalar field (used in the `@relation` attribute above)
+  User      User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Product {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  slug          String         @unique
+  description   String
+  price         Float
+  productImages ProductImage[]
+  productImage  String         @default("")
+  category      String
+  seller        String
+  stock         Int
+  ratings       Float          @default(0)
+  roundedRating Int            @default(0)
+  comments      Comment[]
+  owner_id      String         @db.ObjectId
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  User          User           @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+}
+
+model ProductImage {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String   @db.ObjectId
+  public_id   String   @default("")
+  url         String   @default("")
+  owner_email String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  owner     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int      @default(0)
+  comment   String   @default("")
+  productId String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  categoryName String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Address {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String  @db.ObjectId
+  country String  @default("")
+  state   String  @default("")
+  city    String  @default("")
+  street  String  @default("")
+  phoneNo String  @default("")
+  User    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Order   Order[]
+}
+
+model Order {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  orderId        String?
+  shippingInfo   Address      @relation(fields: [shippingInfoId], references: [id])
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentInfo    PaymentInfo?
+  orderItems     OrderItem[]
+  orderStatus    String       @default("Processing")
+  shippingInfoId String       @db.ObjectId
+  userId         String       @db.ObjectId
+  paymentInfoId  String?      @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PaymentInfo {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  status     String
+  taxPaid    Float
+  amountPaid Float
+
+  orderId   String   @unique @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model OrderItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  name      String
+  slug      String
+  seller    String
+  quantity  Int
+  image     String
+  price     Float
+
+  orderId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

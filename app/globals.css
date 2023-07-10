@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+   body {
+      @apply dark:bg-primary duration-500 ease-out transition;
+   }
+}
+
+@layer component {
+   .trans {
+      @apply transition duration-300 ease-out;
+   }
+}
