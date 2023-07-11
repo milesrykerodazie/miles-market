@@ -1,5 +1,6 @@
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import {NextResponse, NextRequest} from 'next/server';
+import prisma from '../../../lib/prismadb';
 
 export async function POST(req: NextRequest) {
    //getting the current user from server
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
    }
 
    //creating the category name
-   await prisma?.category.create({
+   await prisma.category.create({
       data: {
          categoryName: catName,
       },

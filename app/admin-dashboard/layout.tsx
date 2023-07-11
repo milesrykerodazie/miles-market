@@ -23,12 +23,12 @@ export default async function AdminLayout({
                <MobileSideBar password={currentUser?.password} />
             </div>
          </section>{' '}
-         <section className='pt-10'>
+         <section className='pt-3 lg:pt-10 '>
             <div className='w-full lg:max-w-[90%] mx-auto lg:px-4'>
                <div className='flex flex-col lg:flex-row'>
                   <SideBar password={currentUser?.password} />
                   <main className='w-full lg:w-[90%] lg:px-4'>
-                     <article className='bg-white md:drop-shadow-md rounded-md mb-5 p-1 lg:p-5'>
+                     <article className='bg-white md:drop-shadow-md rounded-md mb-5 p-1 lg:p-5 '>
                         {children}
                      </article>
                   </main>

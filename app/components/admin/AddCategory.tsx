@@ -19,51 +19,32 @@ const AddCategory = () => {
    const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setIsLoading(true);
+      try {
+         if (!catName) {
+            toast.error('Check all fields.');
+            return;
+         }
+         const catesRponse = await axios.post('/api/category/new', catData);
 
-      if (!catName) {
-         toast.error('Check all fields.');
-         return;
-      }
-      const response = await axios.post('/api/category/new', {
-         categoryName: catName,
-      });
-      if (response?.data) {
-         if (response?.data?.success === true) {
-            toast.success(response?.data?.message);
-            setCatName('');
+         if (catesRponse?.data) {
+            if (catesRponse?.data?.success === true) {
+               toast.success(catesRponse?.data?.message);
+               setCatName('');
+            }
+            if (catesRponse?.data?.success === false) {
+               toast.error(catesRponse?.data?.message);
+            }
          }
-         if (response?.data?.success === false) {
-            toast.error(response?.data?.message);
-         }
-      } else {
-         console.log('the respionse => ', response);
+      } catch (error: any) {
+         toast.error('Something went wrong.');
+      } finally {
+         setIsLoading(false);
+         router.refresh();
       }
-      // try {
-      //    if (!catName) {
-      //       toast.error('Check all fields.');
-      //       return;
-      //    }
-      //    const response = await axios.post('/api/category/new', catData);
-      //    if (response?.data) {
-      //       if (response?.data?.success === true) {
-      //          toast.success(response?.data?.message);
-      //          setCatName('');
-      //       }
-      //       if (response?.data?.success === false) {
-      //          toast.error(response?.data?.message);
-      //       }
-      //    }
-      // } catch (error: any) {
-      //    console.log('add cat => ', error);
-      //    toast.error('Something went wrong.');
-      // } finally {
-      //    setIsLoading(false);
-      //    router.refresh();
-      // }
    };
 
    return (
-      <div className='pt-5 flex flex-col justify-center items-center'>
+      <div className='py-20 flex flex-col justify-center items-center'>
          <h1 className='mb-3 text-lg md:text-2xl font-semibold text-primary'>
             Add New Category
          </h1>

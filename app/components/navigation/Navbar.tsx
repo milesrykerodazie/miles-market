@@ -26,7 +26,7 @@ const Navbar: FC<NavbarProps> = ({currentUser}) => {
    const [openSearch, setOpenSearch] = useState(false);
    const [navMobile, setNavMobile] = useState(false);
    return (
-      <div className='fixed w-full bg-white dark:bg-primary z-50 shadow-md shadow-primary dark:shadow-white trans'>
+      <div className='fixed top-0 w-full h-16 bg-white dark:bg-primary z-50 shadow-md shadow-primary dark:shadow-white trans'>
          <div className='p-3 lg:px-10'>
             <div className='hidden lg:inline-flex w-full items-center justify-between gap-3'>
                <Logo />

@@ -7,11 +7,7 @@ export const metadata: Metadata = {
 };
 
 const AddCat = () => {
-   return (
-      <div>
-         <AddCategory />
-      </div>
-   );
+   return <AddCategory />;
 };
 
 export default AddCat;
