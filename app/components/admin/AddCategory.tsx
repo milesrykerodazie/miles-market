@@ -22,18 +22,13 @@ const AddCategory = () => {
 
    //handle add category
    const addCategory = async (e: React.FormEvent<HTMLFormElement>) => {
-      //add cat method here
       e.preventDefault();
-
       setIsLoading(true);
-
-      if (catName === '') {
-         return;
-      }
-
       try {
+         if (catName === '') {
+            return;
+         }
          const response = await axios.post('/api/category/new', catData);
-
          if (response?.data) {
             if (response?.data?.success === true) {
                toast.success(response?.data?.message);
@@ -43,15 +38,15 @@ const AddCategory = () => {
                toast.error(response?.data?.message);
             }
          }
-      } catch (error) {
+      } catch (error: any) {
          console.log('add cat => ', error);
-
-         toast.success('Something went wrong.');
+         toast.error('Something went wrong.');
       } finally {
          setIsLoading(false);
          router.refresh();
       }
    };
+
    return (
       <form onSubmit={addCategory} className='pt-5'>
          <h1 className='mb-3 text-lg md:text-3xl font-semibold text-primary'>

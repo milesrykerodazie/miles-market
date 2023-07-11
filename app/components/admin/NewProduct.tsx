@@ -161,7 +161,7 @@ const NewProduct: FC<UserProps> = ({currentUser, catList}) => {
             }
          }
       } catch (error: any) {
-         toast.success('Something went wrong.');
+         toast.error('Something went wrong.');
       } finally {
          setIsLoading(false);
          router.refresh();
