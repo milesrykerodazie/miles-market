@@ -33,11 +33,11 @@ const AddCategory = () => {
 
       try {
          const response = await axios.post('/api/category/new', catData);
-         setCatName('');
 
          if (response?.data) {
             if (response?.data?.success === true) {
                toast.success(response?.data?.message);
+               setCatName('');
             }
             if (response?.data?.success === false) {
                toast.error(response?.data?.message);
@@ -61,7 +61,7 @@ const AddCategory = () => {
             <div className=''>
                <input
                   type='text'
-                  className='appearance-none border border-primary bg-white rounded-md py-1 px-3 outline-none w-full text-sm md:text-base'
+                  className='appearance-none border border-primary bg-white rounded-md py-1 px-3 outline-none w-full text-sm md:text-base text-primary'
                   placeholder='Category name'
                   name='category name'
                   value={catName}
