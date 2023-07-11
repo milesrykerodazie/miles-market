@@ -14,6 +14,7 @@ import {
    MdKeyboardArrowRight,
    MdRemoveCircle,
 } from 'react-icons/md';
+import LinkButton from '../buttons/LinkButton';
 
 interface CatProps {
    id: string;
@@ -278,6 +279,7 @@ const NewProduct: FC<UserProps> = ({currentUser, catList}) => {
                            </div>
                         )}
                      </div>
+                     <LinkButton />
                   </div>
 
                   <div className='grid md:grid-cols-2 gap-x-2 mt-5'>

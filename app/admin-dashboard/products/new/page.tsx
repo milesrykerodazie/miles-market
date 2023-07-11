@@ -2,6 +2,7 @@ import getCategories from '@/app/actions/getCategories';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import AddCategory from '@/app/components/admin/AddCategory';
 import NewProduct from '@/app/components/admin/NewProduct';
+import LinkButton from '@/app/components/buttons/LinkButton';
 import {Metadata} from 'next';
 
 export const metadata: Metadata = {
@@ -17,7 +18,6 @@ const CreateProduct = async () => {
       <>
          {/* @ts-expect-error */}
          <NewProduct currentUser={currentUser} catList={categories} />
-         <AddCategory />
       </>
    );
 };

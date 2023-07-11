@@ -21,9 +21,7 @@ const AddCategory = () => {
    };
 
    //handle add category
-   const addCategory = async (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => {
+   const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setIsLoading(true);
       try {
@@ -51,11 +49,11 @@ const AddCategory = () => {
    };
 
    return (
-      <div className='pt-5'>
-         <h1 className='mb-3 text-lg md:text-3xl font-semibold text-primary'>
+      <div className='pt-5 flex flex-col justify-center items-center'>
+         <h1 className='mb-3 text-lg md:text-2xl font-semibold text-primary'>
             Add New Category
          </h1>
-         <div className='flex items-center gap-3'>
+         <form onSubmit={handleAddCategory} className='flex items-center gap-3'>
             <div className=''>
                <input
                   type='text'
@@ -68,7 +66,7 @@ const AddCategory = () => {
                />
             </div>
             <button
-               onClick={addCategory}
+               type='submit'
                disabled={!catName}
                className={`px-4 py-1 text-center text-white bg-primary dark:bg-white dark:text-primary font-semibold text-sm md:text-base border border-transparent rounded-md trans ${
                   !catName && 'cursor-not-allowed opacity-80'
@@ -76,7 +74,7 @@ const AddCategory = () => {
             >
                {isLoading ? <FaSpinner className='animate-spin' /> : 'Add'}
             </button>
-         </div>
+         </form>
       </div>
    );
 };
