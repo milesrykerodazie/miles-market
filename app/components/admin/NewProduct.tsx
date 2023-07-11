@@ -1,6 +1,5 @@
 'use client';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
 import {SafeUser} from '@/app/types';
 import axios from 'axios';
 import Image from 'next/image';

@@ -1,14 +1,9 @@
 'use client';
-import axios from 'axios';
 import React, {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {FaSpinner} from 'react-icons/fa';
 import {toast} from 'react-hot-toast';
-
-interface ResponseProps {
-   success: boolean;
-   message: string;
-}
+import axios from 'axios';
 
 const AddCategory = () => {
    //next route
@@ -29,7 +24,9 @@ const AddCategory = () => {
          toast.error('Check all fields.');
          return;
       }
-      const response = await axios.post('/api/category/new', catData);
+      const response = await axios.post('/api/category/new', {
+         categoryName: catName,
+      });
       if (response?.data) {
          if (response?.data?.success === true) {
             toast.success(response?.data?.message);
