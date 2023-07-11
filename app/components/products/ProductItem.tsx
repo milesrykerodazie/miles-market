@@ -27,7 +27,11 @@ const ProductItem: FC<ProductProp> = ({product}) => {
       quantity: 1,
    };
    return (
-      <article className='border border-primary overflow-hidden bg-primarywhite shadow-md shadow-primary rounded mb-5'>
+      <article
+         className={`border border-primary overflow-hidden bg-primarywhite shadow-md shadow-primary rounded mb-5 ${
+            product?.stock < 1 ? 'opacity-50' : ''
+         }`}
+      >
          <div className='flex flex-col lg:flex-row'>
             <div className='lg:w-1/4 flex p-3'>
                <div className='relative w-full'>
@@ -82,16 +86,17 @@ const ProductItem: FC<ProductProp> = ({product}) => {
 
                      <p className='text-primary'>Free Shipping</p>
                   </div>
-
-                  <div className='my-3'>
-                     <span
-                        onClick={() => dispatch(addItemToCart(item))}
-                        className='px-4 py-2 inline-block text-primarywhite bg-primary border border-transparent rounded-md hover:bg-primary/80 cursor-pointer'
-                     >
-                        {' '}
-                        Add to Cart{' '}
-                     </span>
-                  </div>
+                  {product?.stock > 0 && (
+                     <div className='my-3'>
+                        <span
+                           onClick={() => dispatch(addItemToCart(item))}
+                           className='px-4 py-2 inline-block text-primarywhite bg-primary border border-transparent rounded-md hover:bg-primary/80 cursor-pointer'
+                        >
+                           {' '}
+                           Add to Cart{' '}
+                        </span>
+                     </div>
+                  )}
                </div>
             </div>
          </div>

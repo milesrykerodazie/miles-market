@@ -1,13 +1,26 @@
 'use client';
 
 import {SafeProduct, SafeUser} from '@/app/types';
-import React, {FC, useRef} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import StarRatings from 'react-star-ratings';
 import {BsFillCartCheckFill} from 'react-icons/bs';
 import AddReview from '../review/AddReview';
 import Reviews from '../review/Reviews';
 import {addItemToCart} from '../../state-management/features/cartSlice';
 import {useAppDispatch} from '../../state-management/hooks';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import {Swiper, SwiperSlide} from 'swiper/react';
+
+// Import Swiper styles
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+import {Pagination, Navigation} from 'swiper/modules';
+import {AiFillCloseCircle} from 'react-icons/ai';
 
 interface IProduct {
    product: SafeProduct;
@@ -41,6 +54,35 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
 
    const inStock = product?.stock >= 1;
 
+   //image preview
+   const [preview, setPreview] = useState(false);
+
+   // function SampleNextArrow(props: any) {
+   //    const {onClick} = props;
+   //    return (
+   //       <div className='w-10 h-8' onClick={onClick}>
+   //          <HiArrowRight />
+   //       </div>
+   //    );
+   // }
+
+   // function SamplePrevArrow(props: any) {
+   //    const {onClick} = props;
+   //    return (
+   //       <div className='w-10 h-8' onClick={onClick}>
+   //          <HiArrowLeft />
+   //       </div>
+   //    );
+   // }
+
+   const settings = {
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrow: true,
+   };
+
    return (
       <>
          {/* <BreadCrumbs breadCrumbs={breadCrumbs} /> */}
@@ -49,7 +91,10 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
             <div className='lg:max-w-screen-xl mx-auto px-4'>
                <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mb-5'>
                   <aside>
-                     <div className='border border-gray-200 shadow-sm text-center rounded-md mb-5'>
+                     <div
+                        onClick={() => setPreview((current) => !current)}
+                        className='border border-gray-200 shadow-sm text-center rounded-md mb-5 cursor-pointer'
+                     >
                         <img
                            ref={imgRef}
                            className='object-cover w-full h-60 sm:h-[400px] inline-block rounded-md'
@@ -69,7 +114,7 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
                               onClick={() => setImgPreview(img.url)}
                            >
                               <img
-                                 className='h-10 w-10 sm:w-14 sm:h-14 rounded-md'
+                                 className='h-10 w-10 sm:w-14 sm:h-14 rounded-md object-cover'
                                  src={img.url}
                                  alt='Product title'
                               />
@@ -112,8 +157,16 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
 
                      <div className='flex flex-wrap gap-2 mb-5'>
                         <button
-                           onClick={() => dispatch(addItemToCart(item))}
-                           className='px-4 flex items-center py-2 space-x-2 text-white bg-primary trans rounded-md hover:bg-primary/80 text-sm md:text-base'
+                           onClick={() => {
+                              if (product?.stock > 0) {
+                                 dispatch(addItemToCart(item));
+                              }
+                           }}
+                           className={`px-4 flex items-center py-2 space-x-2 text-white bg-primary trans rounded-md hover:bg-primary/80 text-sm md:text-base ${
+                              product?.stock < 1
+                                 ? 'opacity-50 cursor-not-allowed'
+                                 : ''
+                           }`}
                         >
                            <BsFillCartCheckFill />
                            <span>Add to cart</span>
@@ -168,6 +221,55 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
                </div>
             </div>
          </section>
+         {preview && (
+            <div className='fixed top-0 left-0 w-full right-0 min-h-screen md:px-4 z-70 sm:bg-black/50 md:pt-32 lg:pt-20'>
+               <div className='bg-white sm:max-w-3xl h-screen sm:h-auto relative mx-auto p-10 rounded-md'>
+                  <aside>
+                     <Swiper
+                        style={{
+                           // @ts-ignore
+                           '--swiper-navigation-color': '#4c1d95',
+                           '--swiper-pagination-color': '#4c1d95',
+                        }}
+                        slidesPerView={1}
+                        spaceBetween={10}
+                        pagination={{
+                           clickable: true,
+                        }}
+                        loop={true}
+                        navigation={true}
+                        modules={[Pagination, Navigation]}
+                     >
+                        {product?.productImages?.map((image) => (
+                           <SwiperSlide>
+                              <div
+                                 key={image?.public_id}
+                                 className='border border-gray-200 shadow-sm text-center rounded-md mb-5 cursor-pointer'
+                              >
+                                 <img
+                                    className='object-contain w-full md:h-[600px] inline-block rounded-md'
+                                    src={
+                                       image?.url
+                                          ? image?.url
+                                          : '/images/no-photo-available.png'
+                                    }
+                                    alt='Product title'
+                                 />
+                              </div>
+                           </SwiperSlide>
+                        ))}
+                     </Swiper>
+
+                     {/* */}
+                  </aside>
+
+                  <AiFillCloseCircle
+                     className='absolute top-3 right-3 lg:right-0 w-6 h-6 lg:w-8 lg:h-8 text-primary'
+                     onClick={() => setPreview(false)}
+                  />
+               </div>
+            </div>
+         )}
       </>
    );
 };

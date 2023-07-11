@@ -66,6 +66,8 @@ export async function POST(req: Request) {
                   });
                }),
             );
+
+            // check order items created output
          }
 
          //the payment info
@@ -88,6 +90,78 @@ export async function POST(req: Request) {
                orderId: newOrder?.id,
             },
          });
+
+         //updating product stock starts here
+         const orderItemsForUse = orderItems?.map((item) => ({
+            productId: item?.productId,
+            quantity: item?.quantity,
+         }));
+
+         const productIds = orderItems?.map((item) => item?.productId);
+
+         //find all products with the product ids respectively
+         const productsFound = await prisma.product.findMany({
+            where: {
+               id: {
+                  in: productIds,
+               },
+            },
+         });
+
+         const productItemsForUse = productsFound?.map((product) => ({
+            productId: product?.id,
+            stock: product?.stock,
+         }));
+
+         interface JdType {
+            productId: string;
+            quantity: number;
+         }
+
+         interface PdType {
+            productId: string;
+            stock: number;
+         }
+
+         //subtract order items for usse from product items for use
+         const newSubtract = (
+            productItemsForUse: PdType[],
+            orderItemsForUse: JdType[],
+         ) => {
+            return productItemsForUse?.map((item) => {
+               const matchingProduct = orderItemsForUse.find(
+                  (newItem) => newItem.productId === item.productId,
+               );
+               if (matchingProduct) {
+                  const newStock = item.stock - matchingProduct.quantity;
+                  return {
+                     productId: item.productId,
+                     stock: newStock,
+                  };
+               }
+               return item;
+            });
+         };
+
+         const subtractedArrayResult = newSubtract(
+            productItemsForUse,
+            orderItemsForUse,
+         );
+
+         //the new subtracted array result
+
+         await prisma.$transaction(
+            subtractedArrayResult.map((item) =>
+               prisma.product.updateMany({
+                  where: {
+                     id: item.productId,
+                  },
+                  data: {
+                     stock: item.stock,
+                  },
+               }),
+            ),
+         );
 
          return NextResponse.json('Added items');
       }
