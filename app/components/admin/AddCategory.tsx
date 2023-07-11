@@ -36,7 +36,7 @@ const AddCategory = () => {
             toast.error(response?.data?.message);
          }
       } else {
-         console.log(response);
+         console.log('the respionse => ', response);
       }
       // try {
       //    if (!catName) {
