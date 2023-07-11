@@ -68,6 +68,8 @@ const MiniSearch: FC<SearchVariationType> = ({difference}) => {
                placeholder={
                   difference === 'order-search'
                      ? 'Enter Last Six characters'
+                     : difference === 'product'
+                     ? 'Enter product name'
                      : 'Enter User Name'
                }
                value={searchQuery || ''}

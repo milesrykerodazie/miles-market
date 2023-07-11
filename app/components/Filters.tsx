@@ -193,13 +193,13 @@ const Filters = ({categories}: CategoryProps) => {
          </div>
 
          {/* desktop starts here */}
-         <div className='hidden lg:block px-6 py-4 border border-primary bg-white rounded shadow-sm'>
-            <h3 className='font-semibold mb-2 text-primary'>Price ($)</h3>
+         <div className='hidden lg:block px-2 border border-primary bg-white rounded shadow-sm'>
+            <h3 className='font-semibold mb-2 text-primary py-2'>Price ($)</h3>
             <div className='grid md:grid-cols-3 gap-x-2'>
                <div className='mb-4'>
                   <input
                      name='min'
-                     className='appearance-none border border-primary bg-white rounded-md py-2 px-3 focus:outline-none focus:border-primary/30 w-full trans'
+                     className='appearance-none border border-primary bg-white rounded-md p-1 focus:outline-none focus:border-primary/30 w-full trans text-sm'
                      type='text'
                      placeholder='Min'
                      value={min}
@@ -210,7 +210,7 @@ const Filters = ({categories}: CategoryProps) => {
                <div className='mb-4'>
                   <input
                      name='max'
-                     className='appearance-none border border-primary bg-white rounded-md py-2 px-3  focus:outline-none focus:border-primary/30 w-full trans'
+                     className='appearance-none border border-primary bg-white rounded-md p-1  focus:outline-none focus:border-primary/30 w-full trans text-sm'
                      type='text'
                      placeholder='Max'
                      value={max}
@@ -221,7 +221,7 @@ const Filters = ({categories}: CategoryProps) => {
                <div className='mb-4'>
                   <button
                      onClick={handleButtonClick}
-                     className='px-1 py-2 text-center w-full inline-block text-white bg-primary border rounded-md hover:bg-primary/70 trans'
+                     className='p-1 text-center w-full inline-block text-white bg-primary border rounded-md hover:bg-primary/70 text-sm trans'
                   >
                      Go
                   </button>
@@ -229,11 +229,11 @@ const Filters = ({categories}: CategoryProps) => {
             </div>
          </div>
 
-         <div className='hidden lg:block px-6 py-4 border border-primary bg-white rounded shadow-sm'>
+         <div className='hidden lg:block px-2 py-4 border border-primary bg-white rounded shadow-sm'>
             <h3 className='font-semibold mb-2 text-primary'>Category</h3>
             {categories?.map((category) => (
                <ul key={category?.id} className='space-y-1'>
-                  <li key={category?.id}>
+                  <li key={category?.id} className='space-y-3'>
                      <label className='flex items-center'>
                         <input
                            name='category'
@@ -246,7 +246,7 @@ const Filters = ({categories}: CategoryProps) => {
                            )}
                            onClick={(e) => handleClick(e.target)}
                         />
-                        <span className='ml-2 text-primary capitalize'>
+                        <span className='ml-2 text-primary capitalize text-xs md:text-sm truncate'>
                            {' '}
                            {category?.categoryName}{' '}
                         </span>

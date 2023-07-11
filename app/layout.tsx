@@ -30,9 +30,7 @@ export default async function RootLayout({
                <Register />
                {/* @ts-expect-error */}
                <Navbar currentUser={currentUser} />
-               <div className='pb-5 pt-20 px-3 lg:px-10 h-[calc(100vh-70px)]'>
-                  {children}
-               </div>
+               <div className='pb-5 pt-20 px-3 lg:px-10'>{children}</div>
                <Footer />
             </Providers>
          </body>

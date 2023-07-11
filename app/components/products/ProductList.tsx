@@ -32,8 +32,8 @@ const ProductList: FC<ProductsProps> = ({products, categories}) => {
    const showNextButton = pagesVisited !== products?.length - 1;
    const showPrevButton = pagesVisited !== 0;
    return (
-      <section className='py-5'>
-         <div className='container max-w-screen-xl mx-auto px-4'>
+      <section className='py-5 h-auto'>
+         <div className='lg:max-w-screen-xl mx-auto px-4'>
             <div className='flex flex-col lg:flex-row -mx-4'>
                <Filters categories={categories} />
 
