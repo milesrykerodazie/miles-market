@@ -15,6 +15,16 @@ interface OrderType {
    price: any;
 }
 
+interface JdType {
+   productId: string;
+   quantity: number;
+}
+
+interface PdType {
+   productId: string;
+   stock: number;
+}
+
 export async function POST(req: Request) {
    const body = await req.text();
    const signature = headers().get('Stripe-Signature') as string;
@@ -113,29 +123,19 @@ export async function POST(req: Request) {
             stock: product?.stock,
          }));
 
-         interface JdType {
-            productId: string;
-            quantity: number;
-         }
-
-         interface PdType {
-            productId: string;
-            stock: number;
-         }
-
          //subtract order items for usse from product items for use
          const newSubtract = (
             productItemsForUse: PdType[],
             orderItemsForUse: JdType[],
          ) => {
             return productItemsForUse?.map((item) => {
-               const matchingProduct = orderItemsForUse.find(
-                  (newItem) => newItem.productId === item.productId,
+               const matchingProduct = orderItemsForUse?.find(
+                  (newItem) => newItem?.productId === item?.productId,
                );
                if (matchingProduct) {
-                  const newStock = item.stock - matchingProduct.quantity;
+                  const newStock = item?.stock - matchingProduct?.quantity;
                   return {
-                     productId: item.productId,
+                     productId: item?.productId,
                      stock: newStock,
                   };
                }
@@ -151,13 +151,13 @@ export async function POST(req: Request) {
          //the new subtracted array result
 
          await prisma.$transaction(
-            subtractedArrayResult.map((item) =>
+            subtractedArrayResult?.map((item) =>
                prisma.product.updateMany({
                   where: {
-                     id: item.productId,
+                     id: item?.productId,
                   },
                   data: {
-                     stock: item.stock,
+                     stock: item?.stock,
                   },
                }),
             ),

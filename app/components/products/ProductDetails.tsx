@@ -1,6 +1,6 @@
 'use client';
 
-import {SafeProduct, SafeUser} from '@/app/types';
+import {SafeProduct} from '@/app/types';
 import React, {FC, useRef, useState} from 'react';
 import StarRatings from 'react-star-ratings';
 import {BsFillCartCheckFill} from 'react-icons/bs';
@@ -8,9 +8,6 @@ import AddReview from '../review/AddReview';
 import Reviews from '../review/Reviews';
 import {addItemToCart} from '../../state-management/features/cartSlice';
 import {useAppDispatch} from '../../state-management/hooks';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import {Swiper, SwiperSlide} from 'swiper/react';
 
 // Import Swiper styles
@@ -56,32 +53,6 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
 
    //image preview
    const [preview, setPreview] = useState(false);
-
-   // function SampleNextArrow(props: any) {
-   //    const {onClick} = props;
-   //    return (
-   //       <div className='w-10 h-8' onClick={onClick}>
-   //          <HiArrowRight />
-   //       </div>
-   //    );
-   // }
-
-   // function SamplePrevArrow(props: any) {
-   //    const {onClick} = props;
-   //    return (
-   //       <div className='w-10 h-8' onClick={onClick}>
-   //          <HiArrowLeft />
-   //       </div>
-   //    );
-   // }
-
-   const settings = {
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrow: true,
-   };
 
    return (
       <>
