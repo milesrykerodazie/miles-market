@@ -24,28 +24,45 @@ const AddCategory = () => {
    const handleAddCategory = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setIsLoading(true);
-      try {
-         if (!catName) {
-            toast.error('Check all fields.');
-            return;
-         }
-         const response = await axios.post('/api/category/new', catData);
-         if (response?.data) {
-            if (response?.data?.success === true) {
-               toast.success(response?.data?.message);
-               setCatName('');
-            }
-            if (response?.data?.success === false) {
-               toast.error(response?.data?.message);
-            }
-         }
-      } catch (error: any) {
-         console.log('add cat => ', error);
-         toast.error('Something went wrong.');
-      } finally {
-         setIsLoading(false);
-         router.refresh();
+
+      if (!catName) {
+         toast.error('Check all fields.');
+         return;
       }
+      const response = await axios.post('/api/category/new', catData);
+      if (response?.data) {
+         if (response?.data?.success === true) {
+            toast.success(response?.data?.message);
+            setCatName('');
+         }
+         if (response?.data?.success === false) {
+            toast.error(response?.data?.message);
+         }
+      } else {
+         console.log(response);
+      }
+      // try {
+      //    if (!catName) {
+      //       toast.error('Check all fields.');
+      //       return;
+      //    }
+      //    const response = await axios.post('/api/category/new', catData);
+      //    if (response?.data) {
+      //       if (response?.data?.success === true) {
+      //          toast.success(response?.data?.message);
+      //          setCatName('');
+      //       }
+      //       if (response?.data?.success === false) {
+      //          toast.error(response?.data?.message);
+      //       }
+      //    }
+      // } catch (error: any) {
+      //    console.log('add cat => ', error);
+      //    toast.error('Something went wrong.');
+      // } finally {
+      //    setIsLoading(false);
+      //    router.refresh();
+      // }
    };
 
    return (
