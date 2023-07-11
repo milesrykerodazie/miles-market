@@ -8,6 +8,7 @@ import Delete from '../modals/Delete';
 import axios from 'axios';
 import {toast} from 'react-hot-toast';
 import {useRouter} from 'next/navigation';
+import Link from 'next/link';
 
 interface UserOrderProp {
    userOrder: UserOrderType;
@@ -126,27 +127,31 @@ const OrdItem: FC<UserOrderProp> = ({userOrder}) => {
 
             <div className='grid grid-cols-2 lg:grid-cols-3 gap-2'>
                {userOrder?.orderItems?.map((item) => (
-                  <div key={item?.id} className='flex flex-row mb-4'>
-                     <div>
-                        <div className='overflow-hidden '>
-                           <Image
-                              src={item?.image}
-                              height='60'
-                              width='60'
-                              alt={item.name}
-                              className='col-span-1 object-cover shadow rounded border-2 border-gray-200 w-full h-10 bg-white'
-                           />
-                        </div>
+                  <Link
+                     key={item?.id}
+                     href={`/product/${item?.slug}`}
+                     className='flex flex-row mb-4'
+                  >
+                     <div className='overflow-hidden '>
+                        <Image
+                           src={item?.image}
+                           height='60'
+                           width='60'
+                           alt={item.name}
+                           className='col-span-1 object-cover shadow rounded border-2 border-gray-200 w-full trans md:w-44 lg:w-32 h-14 md:h-24 lg:h-28 bg-white'
+                        />
                      </div>
+
                      <div className='ml-3 text-primary'>
                         <p className='text-sm md:text-base font-semibold'>
                            {item.name.substring(0, 10)}
                         </p>
+
                         <p className='font-light text-xs md:text-sm'>
                            {item.quantity}x = ${item.price * item.quantity}
                         </p>
                      </div>
-                  </div>
+                  </Link>
                ))}
             </div>
          </article>

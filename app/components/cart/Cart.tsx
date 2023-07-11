@@ -48,7 +48,7 @@ const Cart = () => {
       0,
    );
 
-   const taxAmount = Number(amountWithoutTax * 0.8).toFixed(2);
+   const taxAmount = Number(amountWithoutTax * 0.08).toFixed(2);
 
    const totalAmount = (Number(amountWithoutTax) + Number(taxAmount)).toFixed(
       2,

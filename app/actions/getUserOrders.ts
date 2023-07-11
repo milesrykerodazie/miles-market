@@ -39,6 +39,7 @@ export default async function getUserOrders(userId: string) {
                   name: true,
                   quantity: true,
                   image: true,
+                  slug: true,
                   price: true,
                },
             },

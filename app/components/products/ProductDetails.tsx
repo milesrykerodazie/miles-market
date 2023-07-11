@@ -215,10 +215,10 @@ const ProductDetails = ({product, userId, canReview}: IProduct) => {
                            <SwiperSlide>
                               <div
                                  key={image?.public_id}
-                                 className='border border-gray-200 shadow-sm text-center rounded-md mb-5 cursor-pointer'
+                                 className='mb-5 cursor-pointer'
                               >
                                  <img
-                                    className='object-contain w-full md:h-[600px] inline-block rounded-md'
+                                    className='object-contain w-full h-full sm:h-[600px] inline-block rounded-md'
                                     src={
                                        image?.url
                                           ? image?.url
