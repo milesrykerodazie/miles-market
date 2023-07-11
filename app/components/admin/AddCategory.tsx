@@ -21,11 +21,14 @@ const AddCategory = () => {
    };
 
    //handle add category
-   const addCategory = async (e: React.FormEvent<HTMLFormElement>) => {
+   const addCategory = async (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+   ) => {
       e.preventDefault();
       setIsLoading(true);
       try {
-         if (catName === '') {
+         if (!catName) {
+            toast.error('Check all fields.');
             return;
          }
          const response = await axios.post('/api/category/new', catData);
@@ -48,7 +51,7 @@ const AddCategory = () => {
    };
 
    return (
-      <form onSubmit={addCategory} className='pt-5'>
+      <div className='pt-5'>
          <h1 className='mb-3 text-lg md:text-3xl font-semibold text-primary'>
             Add New Category
          </h1>
@@ -65,7 +68,7 @@ const AddCategory = () => {
                />
             </div>
             <button
-               type='submit'
+               onClick={addCategory}
                disabled={!catName}
                className={`px-4 py-1 text-center text-white bg-primary dark:bg-white dark:text-primary font-semibold text-sm md:text-base border border-transparent rounded-md trans ${
                   !catName && 'cursor-not-allowed opacity-80'
@@ -74,7 +77,7 @@ const AddCategory = () => {
                {isLoading ? <FaSpinner className='animate-spin' /> : 'Add'}
             </button>
          </div>
-      </form>
+      </div>
    );
 };
 
