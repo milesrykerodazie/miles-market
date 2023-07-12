@@ -1,11 +1,22 @@
 'use client';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {FaSpinner} from 'react-icons/fa';
 import {toast} from 'react-hot-toast';
 import axios from 'axios';
+import AllCategories from './AllCategories';
+import MiniSearch from './MiniSearch';
 
-const AddCategory = () => {
+interface CatProps {
+   id: string;
+   categoryName: string;
+}
+
+interface CategoriesTypes {
+   categories: CatProps[];
+}
+
+const AddCategory: FC<CategoriesTypes> = ({categories}) => {
    //next route
    const router = useRouter();
    const [catName, setCatName] = useState('');
@@ -44,32 +55,42 @@ const AddCategory = () => {
    };
 
    return (
-      <div className='py-20 flex flex-col justify-center items-center'>
-         <h1 className='mb-3 text-lg md:text-2xl font-semibold text-primary'>
-            Add New Category
-         </h1>
-         <form onSubmit={handleAddCategory} className='flex items-center gap-3'>
-            <div className=''>
-               <input
-                  type='text'
-                  className='appearance-none border border-primary bg-white rounded-md py-1 px-3 outline-none w-full text-sm md:text-base text-primary'
-                  placeholder='Category name'
-                  name='category name'
-                  value={catName}
-                  onChange={(e) => setCatName(e.target.value)}
-                  required
-               />
-            </div>
-            <button
-               type='submit'
-               disabled={!catName}
-               className={`px-4 py-1 text-center text-white bg-primary dark:bg-white dark:text-primary font-semibold text-sm md:text-base border border-transparent rounded-md trans ${
-                  !catName && 'cursor-not-allowed opacity-80'
-               }`}
+      <div className='flex flex-col lg:flex-row justify-between space-y-5 lg:space-y-0 lg:space-x-5'>
+         {/* all categories */}
+         <section className='lg:flex-grow '>
+            <MiniSearch difference='category' />
+            <AllCategories categories={categories} />
+         </section>
+         <section className='flex flex-col border-l lg:pl-3'>
+            <h1 className='mb-3 font-semibold text-primary text-sm md:text-base'>
+               Add New Category
+            </h1>
+            <form
+               onSubmit={handleAddCategory}
+               className='flex items-center gap-3'
             >
-               {isLoading ? <FaSpinner className='animate-spin' /> : 'Add'}
-            </button>
-         </form>
+               <div className=''>
+                  <input
+                     type='text'
+                     className='appearance-none border border-primary/70 bg-white rounded-md py-1 px-3 outline-none text-sm text-primary'
+                     placeholder='Category name'
+                     name='category name'
+                     value={catName}
+                     onChange={(e) => setCatName(e.target.value)}
+                     required
+                  />
+               </div>
+               <button
+                  type='submit'
+                  disabled={!catName}
+                  className={`px-2 py-1 text-center text-white bg-primary dark:bg-white dark:text-primary font-semibold text-sm border border-transparent rounded-md trans ${
+                     !catName && 'cursor-not-allowed opacity-80'
+                  }`}
+               >
+                  {isLoading ? <FaSpinner className='animate-spin' /> : 'Add'}
+               </button>
+            </form>
+         </section>
       </div>
    );
 };

@@ -176,9 +176,9 @@ const Filters = ({categories}: CategoryProps) => {
                                     {' '}
                                     <StarRatings
                                        rating={rating}
-                                       starRatedColor='#ffb829'
+                                       starRatedColor='#4c1d95'
                                        numberOfStars={5}
-                                       starDimension='20px'
+                                       starDimension='18px'
                                        starSpacing='2px'
                                        name='rating'
                                     />{' '}
@@ -274,9 +274,9 @@ const Filters = ({categories}: CategoryProps) => {
                            {' '}
                            <StarRatings
                               rating={rating}
-                              starRatedColor='#ffb829'
+                              starRatedColor='#4c1d95'
                               numberOfStars={5}
-                              starDimension='20px'
+                              starDimension='18px'
                               starSpacing='2px'
                               name='rating'
                            />{' '}
