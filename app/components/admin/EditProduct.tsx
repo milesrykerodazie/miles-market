@@ -388,7 +388,7 @@ const EditProduct: FC<ProductsProps> = ({productData, catList}) => {
                               key={img.public_id}
                               onClick={(e) => {
                                  e.preventDefault();
-                                 setImage(img.url), setSelectedImage(img.id);
+                                 setImage(img?.url), setSelectedImage(img?.id);
                               }}
                            >
                               <Image

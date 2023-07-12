@@ -334,6 +334,7 @@ const NewProduct: FC<UserProps> = ({currentUser, catList}) => {
                            className='form-control block w-full px-2 py-1.5 font-normal bg-white bg-clip-padding shadow-sm shadow-primary rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none mt-8 text-sm md:text-base text-primary'
                            type='file'
                            id='formFile'
+                           accept='image/*'
                            multiple
                            onChange={handleFileChange}
                         />
