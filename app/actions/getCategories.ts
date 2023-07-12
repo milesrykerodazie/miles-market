@@ -1,22 +1,10 @@
 import prisma from '../lib/prismadb';
 
-export default async function getCategories(searchQuery: {keyword?: string}) {
+export default async function getCategories() {
    //getting the categories
 
    try {
-      //getting the query keyword
-      const {keyword} = searchQuery;
-      let query: any = {};
-
-      if (keyword) {
-         query.categoryName = {
-            contains: keyword,
-            mode: 'insensitive',
-         };
-      }
-
       const getAllCategories = await prisma.category.findMany({
-         where: query,
          orderBy: {
             categoryName: 'asc',
          },

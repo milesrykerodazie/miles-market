@@ -1,4 +1,6 @@
+import getAdminCats from '@/app/actions/getAdminCats';
 import getCategories from '@/app/actions/getCategories';
+import getCurrentUser from '@/app/actions/getCurrentUser';
 import AddCategory from '@/app/components/admin/AddCategory';
 import {Metadata} from 'next';
 import React from 'react';
@@ -14,7 +16,8 @@ interface CatParams {
 }
 
 const AddCat = async ({searchParams}: CatParams) => {
-   const categories = await getCategories(searchParams);
+   const currentUser = await getCurrentUser();
+   const categories = await getAdminCats(searchParams, currentUser?.id);
    return (
       //  @ts-expect-error
       <AddCategory categories={categories} />
