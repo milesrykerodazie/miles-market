@@ -39,19 +39,19 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
    }
 
    //check if the current user is the owner of the product
-   if (currentUser.username !== foundProduct.seller) {
+   if (currentUser?.username !== foundProduct?.seller) {
       return NextResponse.json({success: false, message: 'Not authorized.'});
    }
 
    //check if product has images
    const productImg = await prisma.productImage.findMany({
       where: {
-         productId: foundProduct.id,
+         productId: foundProduct?.id,
       },
    });
 
    //delete all images from cloudinary
-   if (productImg.length > 0) {
+   if (productImg?.length > 0) {
       await Promise.all(
          productImg.map((img) => cloudinary.uploader.destroy(img.public_id)),
       );
@@ -60,14 +60,14 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
    //delete images from database
    await prisma.productImage.deleteMany({
       where: {
-         productId: foundProduct.id,
+         productId: foundProduct?.id,
       },
    });
 
    //delete the product
    await prisma.product.delete({
       where: {
-         slug: foundProduct.slug,
+         id: foundProduct?.id,
       },
    });
 
