@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
                   productId: item.productId,
                   productSlug: item.slug,
                   productOwner: item.seller,
+                  ownerId: currentUser?.id,
                },
             },
             unit_amount: Math.round(item.price * 100),

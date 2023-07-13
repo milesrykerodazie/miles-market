@@ -28,11 +28,13 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  accounts  Account[]
-  products  Product[]
-  comments  Comment[]
-  addresses Address[]
-  orders    Order[]
+  accounts    Account[]
+  products    Product[]
+  comments    Comment[]
+  addresses   Address[]
+  orders      Order[]
+  OrderItem   OrderItem[]
+  PaymentInfo PaymentInfo[]
 }
 
 model UserImage {
@@ -83,14 +85,12 @@ model Product {
 }
 
 model ProductImage {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  productId   String   @db.ObjectId
-  public_id   String   @default("")
-  url         String   @default("")
-  owner_email String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String  @db.ObjectId
+  public_id   String  @default("")
+  url         String  @default("")
+  owner_email String  @unique
+  Product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -128,7 +128,7 @@ model Address {
 model Order {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
   orderId        String?
-  shippingInfo   Address      @relation(fields: [shippingInfoId], references: [id])
+  shippingInfo   Address      @relation(fields: [shippingInfoId], references: [id], onDelete: Cascade)
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   paymentInfo    PaymentInfo?
   orderItems     OrderItem[]
@@ -142,20 +142,23 @@ model Order {
 }
 
 model PaymentInfo {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
   status     String
   taxPaid    Float
   amountPaid Float
-
-  orderId   String   @unique @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId    String   @unique @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model OrderItem {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
   order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId String
   name      String
   slug      String

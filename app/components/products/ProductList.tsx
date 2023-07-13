@@ -1,11 +1,12 @@
 'use client';
 
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Filters from '../Filters';
 import ProductItem from './ProductItem';
 import {SafeProduct} from '@/app/types';
 import ReactPaginate from 'react-paginate';
 import {BsChevronLeft, BsChevronRight} from 'react-icons/bs';
+import {useRouter} from 'next/navigation';
 
 interface ProductsProps {
    products: SafeProduct[];
@@ -16,10 +17,18 @@ interface ProductsProps {
 }
 
 const ProductList: FC<ProductsProps> = ({products, categories}) => {
+   //router
+   const route = useRouter();
    //states for pagenation
    const [pageNumber, setPageNumber] = useState(0);
 
    const productPerPage = 4;
+
+   useEffect(() => {
+      if (productPerPage < 1) {
+         route.refresh();
+      }
+   }, [productPerPage]);
    const pagesVisited = pageNumber * productPerPage;
 
    //the page count
@@ -59,7 +68,7 @@ const ProductList: FC<ProductsProps> = ({products, categories}) => {
 
                   {pageCount > 1 && (
                      <ReactPaginate
-                        breakLabel='...'
+                        breakLabel={<span className='pr-4'>...</span>}
                         pageCount={pageCount}
                         nextLabel={
                            showNextButton ? (

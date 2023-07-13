@@ -5,7 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import {AiFillEdit, AiFillDelete} from 'react-icons/ai';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Delete from '../modals/Delete';
 import {toast} from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
@@ -18,17 +18,20 @@ interface ProductsProps {
 const Products: React.FC<ProductsProps> = ({products}) => {
    //next route
    const router = useRouter();
-
    //pagination section
    //states for pagenation
    const [pageNumber, setPageNumber] = useState(0);
-
    const productPerPage = 4;
+
+   useEffect(() => {
+      if (productPerPage < 1) {
+         router.refresh();
+      }
+   }, [productPerPage]);
    const pagesVisited = pageNumber * productPerPage;
 
    //the page count
    const pageCount = Math.ceil(products?.length / productPerPage);
-
    //on change for select page
    const changePage = ({selected}: {selected: number}) => {
       setPageNumber(selected);
@@ -49,7 +52,7 @@ const Products: React.FC<ProductsProps> = ({products}) => {
          const deleteRes = await axios.delete(
             `/api/product/${productSlug}/delete`,
          );
-         if (deleteRes.data) {
+         if (deleteRes?.data) {
             if (deleteRes?.data?.success === true) {
                toast.success(deleteRes?.data?.message);
             }

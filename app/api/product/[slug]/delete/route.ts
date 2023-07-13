@@ -54,6 +54,8 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
       },
    });
 
+   console.log('product image => ', productImg);
+
    //delete all images from cloudinary
    if (productImg?.length > 0) {
       await Promise.all(

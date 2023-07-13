@@ -6,6 +6,7 @@ import prisma from '@/app/lib/prismadb';
 
 interface OrderType {
    orderId: string;
+   userId: string;
    productId: string;
    name: string;
    slug: string;
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
                   await prisma.orderItem.create({
                      data: {
                         orderId: orderItem?.orderId,
+                        userId: orderItem?.userId,
                         productId: orderItem?.productId,
                         name: orderItem?.name,
                         slug: orderItem?.slug,
@@ -83,6 +85,7 @@ export async function POST(req: Request) {
          //the payment info
          const newPaymentInfo = await prisma.paymentInfo.create({
             data: {
+               userId: session.client_reference_id!,
                status: session.payment_status,
                amountPaid: amountPaid,
                taxPaid: tax,
@@ -183,9 +186,11 @@ async function getCartItems(line_items: any, orderid: string) {
          const productId = product.metadata.productId;
          const productSlug = product.metadata.productSlug;
          const productOwner = product.metadata.productOwner;
+         const userId = product.metadata.ownerId;
 
          cartItems.push({
             orderId: orderid,
+            userId: userId,
             productId: productId,
             name: product.name,
             slug: productSlug,
