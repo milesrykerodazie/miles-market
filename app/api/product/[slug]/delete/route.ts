@@ -20,6 +20,8 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
 
    const slug = params.slug;
 
+   console.log('the id => ', slug);
+
    if (!currentUser) {
       return NextResponse.error();
    }
@@ -37,6 +39,8 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
          message: 'Product does not exist.',
       });
    }
+
+   console.log('the found product => ', foundProduct);
 
    //check if the current user is the owner of the product
    if (currentUser?.username !== foundProduct?.seller) {
