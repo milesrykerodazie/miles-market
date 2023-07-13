@@ -153,7 +153,7 @@ const Users: FC<UsersProps> = ({users}) => {
 
          {pageCount > 1 && (
             <ReactPaginate
-               breakLabel='...'
+               breakLabel={<span className='pr-4'>...</span>}
                pageCount={pageCount}
                nextLabel={
                   showNextButton ? (

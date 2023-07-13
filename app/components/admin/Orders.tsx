@@ -143,7 +143,7 @@ const Orders: FC<UserOrdersTypes> = ({allOrders}) => {
 
                {pageCount > 1 && (
                   <ReactPaginate
-                     breakLabel='...'
+                     breakLabel={<span className='pr-4'>...</span>}
                      pageCount={pageCount}
                      nextLabel={
                         showNextButton ? (

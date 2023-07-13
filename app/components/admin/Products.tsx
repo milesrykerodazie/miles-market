@@ -5,7 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import {AiFillEdit, AiFillDelete} from 'react-icons/ai';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Delete from '../modals/Delete';
 import {toast} from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
@@ -23,11 +23,6 @@ const Products: React.FC<ProductsProps> = ({products}) => {
    const [pageNumber, setPageNumber] = useState(0);
    const productPerPage = 4;
 
-   useEffect(() => {
-      if (productPerPage < 1) {
-         router.refresh();
-      }
-   }, [productPerPage]);
    const pagesVisited = pageNumber * productPerPage;
 
    //the page count
@@ -151,7 +146,7 @@ const Products: React.FC<ProductsProps> = ({products}) => {
 
          {pageCount > 1 && (
             <ReactPaginate
-               breakLabel='...'
+               breakLabel={<span className='pr-4'>...</span>}
                pageCount={pageCount}
                nextLabel={
                   showNextButton ? (

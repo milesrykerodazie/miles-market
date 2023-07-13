@@ -1,6 +1,6 @@
 'use client';
 
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import Filters from '../Filters';
 import ProductItem from './ProductItem';
 import {SafeProduct} from '@/app/types';
@@ -24,11 +24,6 @@ const ProductList: FC<ProductsProps> = ({products, categories}) => {
 
    const productPerPage = 4;
 
-   useEffect(() => {
-      if (productPerPage < 1) {
-         route.refresh();
-      }
-   }, [productPerPage]);
    const pagesVisited = pageNumber * productPerPage;
 
    //the page count
