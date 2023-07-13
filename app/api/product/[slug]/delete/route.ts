@@ -20,8 +20,6 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
 
    const slug = params.slug;
 
-   console.log('the id => ', slug);
-
    if (!currentUser) {
       return NextResponse.error();
    }
@@ -40,8 +38,6 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
       });
    }
 
-   console.log('the found product => ', foundProduct);
-
    //check if the current user is the owner of the product
    if (currentUser?.username !== foundProduct?.seller) {
       return NextResponse.json({success: false, message: 'Not authorized.'});
@@ -53,8 +49,6 @@ export async function DELETE(req: NextRequest, {params}: {params: SlugParams}) {
          productId: foundProduct?.id,
       },
    });
-
-   console.log('product image => ', productImg);
 
    //delete all images from cloudinary
    if (productImg?.length > 0) {

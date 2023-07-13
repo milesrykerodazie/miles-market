@@ -71,7 +71,6 @@ export async function POST(req: NextRequest) {
    });
 
    if (session?.id) {
-      // console.log('stripe session response => ', session);
       return NextResponse.json({success: true, url: session?.url});
    } else {
       return NextResponse.error();
