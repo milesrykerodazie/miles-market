@@ -2,6 +2,7 @@ import {Metadata} from 'next';
 import getCurrentUser from '../actions/getCurrentUser';
 import UserSidebar from '../components/UserSidebar';
 import UserMobileSideBar from '../components/sidebar/UserMobileSidebar';
+import {redirect} from 'next/navigation';
 
 export const metadata: Metadata = {
    title: 'User-Dashboard',
@@ -13,6 +14,7 @@ export default async function AdminLayout({
    children: React.ReactNode;
 }) {
    const currentUser = await getCurrentUser();
+   if (currentUser?.role !== 'USER') redirect('/');
    return (
       <>
          <section className='py-2 bg-primary dark:bg-white trans rounded-lg'>
