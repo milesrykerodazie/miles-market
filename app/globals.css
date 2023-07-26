@@ -2,14 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+.carousel {
+  text-align: center;
+}
+.carousel .thumb {
+  width: 5%;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #4c1d95 !important;
+  padding: 0px !important;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4c1d95;
+  border-radius: 12px;
+  transition: all 0.5s ease-in-out;
+}
+
 @layer base {
-   body {
-      @apply dark:bg-primary duration-500 ease-out transition;
-   }
+  body {
+    @apply dark:bg-primary duration-500 ease-out transition;
+  }
 }
 
 @layer component {
-   .trans {
-      @apply transition duration-300 ease-out;
-   }
+  .trans {
+    @apply transition duration-300 ease-out;
+  }
+}
+
+/* Modal */
+.modal {
+  @apply fixed z-70 inset-0 bg-black/80;
+}
+
+.project_modal_wrapper {
+  @apply flex flex-col absolute h-[95%] w-full bottom-0 bg-white rounded-t-xl md:px-20 px-3 pt-10 pb-20 overflow-auto;
 }
