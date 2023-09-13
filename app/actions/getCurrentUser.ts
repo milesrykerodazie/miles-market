@@ -9,8 +9,7 @@ export async function getSession() {
 //getting the current user
 export default async function getCurrentUser() {
   try {
-    const sessionUser = await getSession();
-    const session = sessionUser?.user;
+    const session = await getSession();
 
     if (!session?.user?.email) {
       return null;
@@ -38,6 +37,8 @@ export default async function getCurrentUser() {
     if (!currentUser) {
       return null;
     }
+
+    console.log("the current user => ", currentUser);
 
     return {
       ...currentUser,
