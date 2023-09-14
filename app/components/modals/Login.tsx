@@ -84,6 +84,10 @@ const Login = () => {
         required
         disabled={isLoading}
       />
+      <div className="text-[13px] text-primary flex items-center flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
+        <span>test-email: test@gmail.com</span>
+        <span>test-password: 1234567</span>
+      </div>
     </div>
   );
 
